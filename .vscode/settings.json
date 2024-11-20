@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "text.h": "c",
+        "raylib.h": "c",
+        "checkbox.h": "c"
+    }
+}
