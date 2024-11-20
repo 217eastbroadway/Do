@@ -1,4 +1,4 @@
 <h1>Do</h1>
 
-<h2>Simple, Lightweight & Cross-Platform TO-DO App.</h2><br>
+<b>Simple, Lightweight & Cross-Platform TO-DO App.</b>
 Created in C using Raylib by 217eastbroadway.
