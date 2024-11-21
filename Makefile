@@ -1,5 +1,11 @@
 CC = gcc
-CFLAGS = -lraylib -lwinmm -lGdi32
+
+ifeq ($(OS),Windows_NT)
+	CFLAGS = -lraylib -lwinmm -lGdi32
+else
+	CFLAGS = -lrayliblinux -lm
+endif
+
 LIB = lib
 INCLUDE = include
 OUTPUT = bin/out
