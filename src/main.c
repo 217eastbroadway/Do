@@ -4,25 +4,46 @@
 #include <graphics/objects/checkbox.h>
 #include <graphics/objects/do.h>
 
+void checkDo(Do *v, int size) {
+    Rectangle r;
+    r.width = 1;
+    r.height = 1;
+    r.x = GetMouseX();
+    r.y = GetMouseY();
+
+    for(int i = 0; i < size; i++)
+        if(CheckCollisionRecs(r, (Rectangle) {v[i].x, v[i].y,
+                                              v[i].checkbox.borderTexture.width + (v[i].text.fontSize * strlen(v[i].text.string)) + (v[i].checkbox.borderTexture.height * 0.2),
+                                              v[i].checkbox.borderTexture.height}))
+            v[i].checkbox.isChecked = !v[i].checkbox.isChecked;
+}
+
 int main() {
     InitWindow(300, 800, "Do");
-
     
-    Do a = createDo(true, "217eastbroadway", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 10, 200, 76});
-    Do b = createDo(false, "balls", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 96, 200, 76});
-    Do c = createDo(true, "unchecked", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 182, 200, 76});
+    Do *v = malloc(sizeof(Do) * 3);
+    v[0] = createDo(true, "217eastbroadway", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 10, 200, 76});
+    v[1] = createDo(false, "balls", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 96, 200, 76});
+    v[2] = createDo(true, "unchecked", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 182, 200, 76});
+
+    Text t = createText("x: 0, y: 0", "res/fonts/helvetica_neue_65.ttf", 35, BLACK, 0, 765);
 
     while(!WindowShouldClose()) {
-        if(IsKeyPressed(KEY_ENTER))
-            b.checkbox.isChecked = !b.checkbox.isChecked;
 
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+            checkDo(v, 3);
+
+        char* str = malloc(sizeof(char) * 16);
+        sprintf(str, "x: %d, y: %d", GetMouseX(), GetMouseY());
+        setText(&t, str);
 
         ClearBackground(WHITE);
         BeginDrawing();        
 
-        renderDo(a);
-        renderDo(b);
-        renderDo(c);
+        for(int i = 0; i < 3; i++)
+            renderDo(v[i]);
+
+        renderText(t);
 
         EndDrawing();
     }

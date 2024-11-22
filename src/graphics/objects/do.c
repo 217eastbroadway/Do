@@ -3,6 +3,9 @@
 Do createDo(bool isChecked, const char* doText, const char* fontFile, const char* borderTextureFile, const char* checkMarkTextureFile, Rectangle pos) {
     Do d;
 
+    d.x = pos.x;
+    d.y = pos.y;
+
     d.checkbox = createCheckbox(isChecked, 
                                 borderTextureFile, 
                                 checkMarkTextureFile, 

@@ -7,7 +7,7 @@
 #include <stdio.h> // Remove this.
 
 typedef struct {
-    const char* string;
+    char* string;
     Font font;
     float fontSize;
     Color textColor;
@@ -17,5 +17,7 @@ typedef struct {
 } Text;
 
 Text createText(const char* string, const char* fontFile, float fontSize, Color textColor, int x, int y);
+
+void setText(Text *t, const char* string);
 
 void renderText(Text t);

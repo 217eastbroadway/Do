@@ -4,7 +4,10 @@ Text createText(const char* string, const char* fontFile, float fontSize, Color 
     Text t;
     
     t.font = createFont(fontFile);
-    t.string = string;
+
+    t.string = (char*)malloc(sizeof(char) * strlen(string));
+    strcpy(t.string, string);
+
     t.fontSize = fontSize;
     t.textColor = textColor;
 
@@ -12,6 +15,11 @@ Text createText(const char* string, const char* fontFile, float fontSize, Color 
     t.y = y;
 
     return t;
+}
+
+void setText(Text *t, const char* string) {
+    t->string = (char*)malloc(sizeof(char) * strlen(string));
+    strcpy(t->string, string);
 }
 
 void renderText(Text t) {

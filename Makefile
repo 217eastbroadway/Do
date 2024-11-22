@@ -1,32 +1,20 @@
 CC = gcc
-
-ifeq ($(OS),Windows_NT)
-	CFLAGS = -lraylib -lwinmm -lGdi32
-else
-	CFLAGS = -lrayliblinux -lm
-endif
-
 LIB = lib
 INCLUDE = include
-OUTPUT = bin/out
+BUILDPATH = bin
+CFLAGS := -I$(INCLUDE) -L$(LIB)
 
-out: main.o text.o checkbox.o general.o do.o
-	$(CC) main.o text.o checkbox.o general.o do.o -L$(LIB) $(CFLAGS) -o $(OUTPUT)
+ifeq ($(OS),Windows_NT)
+	CFLAGS += -lraylib -lwinmm -lGdi32
+else
+	CFLAGS += -lrayliblinux -lm
+endif
 
-main.o: src/main.c
-	$(CC) src/main.c -I$(INCLUDE) -c
+out: src/main.c src/graphics/objects/text.c \
+	src/graphics/objects/checkbox.c src/graphics/general.c\
+	src/graphics/objects/do.c
+	$(CC) $^ $(CFLAGS) -o $(BUILDPATH)/$@
 
-text.o: src/graphics/objects/text.c
-	$(CC) src/graphics/objects/text.c -I$(INCLUDE) -c
-
-checkbox.o: src/graphics/objects/checkbox.c
-	$(CC) src/graphics/objects/checkbox.c -I$(INCLUDE) -c
-
-general.o: src/graphics/general.c
-	$(CC) src/graphics/general.c -I$(INCLUDE) -c
-
-do.o: src/graphics/objects/do.c
-	$(CC) src/graphics/objects/do.c -I$(INCLUDE) -c
-
+.PHONY: clean
 clean:
-	rm *.o
+	rm -rf *.o
