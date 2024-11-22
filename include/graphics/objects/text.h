@@ -1,5 +1,5 @@
 #pragma once
-#include <objects/general.h>
+#include <graphics/general.h>
 #include <raylib.h>
 #include <string.h>
 #include <stdlib.h>
@@ -16,6 +16,6 @@ typedef struct {
     int y;
 } Text;
 
-void initText(Text* t, const char* string, const char* fontFile, float fontSize, Color textColor, int x, int y);
+Text createText(const char* string, const char* fontFile, float fontSize, Color textColor, int x, int y);
 
 void renderText(Text t);

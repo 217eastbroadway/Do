@@ -1,34 +1,28 @@
 #include <stdio.h>
 #include <raylib.h>
-#include <objects/text.h>
-#include <objects/checkbox.h>
+#include <graphics/objects/text.h>
+#include <graphics/objects/checkbox.h>
+#include <graphics/objects/do.h>
 
 int main() {
     InitWindow(300, 800, "Do");
 
-    Text a;
-    initText(&a, "checked", "res/fonts/helvetica_neue_65.ttf", 25.0f, (Color) {255, 255, 255, 255}, 100, 35);
-
-    Text a2;
-    initText(&a2, "unchecked", "res/fonts/helvetica_neue_65.ttf", 25.0f, (Color) {255, 255, 255, 255}, 100, 135);
-
-    Text a3;
-    initText(&a3, "217eastbroadway", "res/fonts/helvetica_neue_65.ttf", 25.0f, (Color) {255, 255, 255, 255}, 100, 235);
-
-    Checkbox b;
-    initCheckbox(&b, true, "res/textures/border.png", "res/textures/checkmark.png", (Rectangle) {10, 10, 75, 75});
-
-    Checkbox c;
-    initCheckbox(&c, false, "res/textures/border.png", "res/textures/checkmark.png", (Rectangle) {10, 100, 75, 75});
+    
+    Do a = createDo(true, "217eastbroadway", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 10, 200, 76});
+    Do b = createDo(false, "balls", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 96, 200, 76});
+    Do c = createDo(true, "unchecked", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 182, 200, 76});
 
     while(!WindowShouldClose()) {
-        BeginDrawing();
+        if(IsKeyPressed(KEY_ENTER))
+            b.checkbox.isChecked = !b.checkbox.isChecked;
 
-        renderText(a);
-        renderText(a2);
-        renderText(a3);
-        renderCheckbox(b);
-        renderCheckbox(c);
+
+        ClearBackground(WHITE);
+        BeginDrawing();        
+
+        renderDo(a);
+        renderDo(b);
+        renderDo(c);
 
         EndDrawing();
     }

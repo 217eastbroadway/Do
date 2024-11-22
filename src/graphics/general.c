@@ -1,4 +1,4 @@
-#include <objects/general.h>
+#include <graphics/general.h>
 
 Font createFont(const char* fontFile) {
     Font temp = LoadFont(fontFile);

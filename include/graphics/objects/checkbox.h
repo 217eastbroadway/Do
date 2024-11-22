@@ -1,5 +1,5 @@
 #pragma once
-#include <objects/general.h>
+#include <graphics/general.h>
 #include <raylib.h>
 #include <string.h>
 #include <stdlib.h>
@@ -19,6 +19,6 @@ typedef struct {
     Rectangle pos;
 } Checkbox;
 
-void initCheckbox(Checkbox *c, bool isChecked, const char* borderTextureFile, const char* checkMarkTextureFile, Rectangle pos);
+Checkbox createCheckbox(bool isChecked, const char* borderTextureFile, const char* checkMarkTextureFile, Rectangle pos);
 
 void renderCheckbox(Checkbox c);
