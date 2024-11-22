@@ -7,7 +7,13 @@ CFLAGS := -I$(INCLUDE) -L$(LIB)
 ifeq ($(OS),Windows_NT)
 	CFLAGS += -lraylib -lwinmm -lGdi32
 else
-	CFLAGS += -lrayliblinux -lm
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+        CFLAGS += -lrayliblinux -lm
+    endif
+    ifeq ($(UNAME_S),Darwin)
+        CFLAGS += -lraylibmacos -lm
+    endif
 endif
 
 out: src/main.c src/graphics/objects/text.c \
@@ -18,3 +24,5 @@ out: src/main.c src/graphics/objects/text.c \
 .PHONY: clean
 clean:
 	rm -rf *.o
+
+# TODO: refactor code gen. [.o folder??]
