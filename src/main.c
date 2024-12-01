@@ -37,7 +37,7 @@ int main() {
         setText(&v[1].text, "cacchio!");
 
         ClearBackground(WHITE);
-        BeginDrawing();        
+        BeginDrawing();
 
         for(int i = 0; i < 3; i++)
             renderDo(&v[i]);

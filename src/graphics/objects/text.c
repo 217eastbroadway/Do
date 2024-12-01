@@ -8,9 +8,6 @@ Text createText(const char* string, const char* fontFile, float fontSize, Color 
     t.string = (char*)malloc(sizeof(char) * strlen(string) + 1);
     strcpy(t.string, string);
 
-    //this is the better way i guess?
-    // t.string = string;
-
     t.fontSize = fontSize;
     t.textColor = textColor;
 
