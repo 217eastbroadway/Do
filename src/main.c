@@ -20,28 +20,27 @@ void checkDo(Do *v, int size) {
 
 int main() {
     InitWindow(300, 800, "Do");
-    
+
     Do *v = malloc(sizeof(Do) * 3);
     v[0] = createDo(true, "217eastbroadway", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 10, 200, 76});
-    v[1] = createDo(false, "balls", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 96, 200, 76});
+    v[1] = createDo(false, "cacchio?", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 96, 200, 76});
     v[2] = createDo(true, "unchecked", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 182, 200, 76});
 
-    Text t = createText("x: 0, y: 0", "res/fonts/helvetica_neue_65.ttf", 35, BLACK, 0, 765);
+    Text t = createText("cacchio?", "res/fonts/helvetica_neue_65.ttf", 75/2, BLACK, 0, 765);
 
     while(!WindowShouldClose()) {
-
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             checkDo(v, 3);
 
         char* str = malloc(sizeof(char) * 16);
         sprintf(str, "x: %d, y: %d", GetMouseX(), GetMouseY());
-        setText(&t, str);
+        setText(&v[1].text, "cacchio!");
 
         ClearBackground(WHITE);
         BeginDrawing();        
 
         for(int i = 0; i < 3; i++)
-            renderDo(v[i]);
+            renderDo(&v[i]);
 
         renderText(t);
 

@@ -21,7 +21,7 @@ Do createDo(bool isChecked, const char* doText, const char* fontFile, const char
     return d;
 }
 
-void renderDo(Do d) {
-    renderCheckbox(d.checkbox);
-    renderText(d.text);
+void renderDo(Do* d) {
+    renderCheckbox(d->checkbox);
+    renderText(d->text);
 }
