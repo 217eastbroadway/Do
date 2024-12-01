@@ -18,7 +18,7 @@ endif
 
 out: src/main.c src/graphics/objects/text.c \
 	src/graphics/objects/checkbox.c src/graphics/general.c\
-	src/graphics/objects/do.c
+	src/graphics/objects/do.c src/graphics/objects/button.c
 	$(CC) $^ $(CFLAGS) -o $(BUILDPATH)/$@
 
 .PHONY: clean

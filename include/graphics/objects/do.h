@@ -19,4 +19,6 @@ typedef struct {
 
 Do createDo(bool isChecked, const char* doText, const char* fontFile, const char* borderTextureFile, const char* checkMarkTextureFile, Rectangle pos);
 
+void checkToDo(Do *d);
+
 void renderDo(Do* d);

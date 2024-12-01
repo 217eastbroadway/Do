@@ -9,12 +9,28 @@ Checkbox createCheckbox(bool isChecked, const char* borderTextureFile, const cha
     c.borderTexture.width = pos.width;
     c.borderTexture.height = pos.height;
 
+    //Inner texture
     c.checkMarkTexture.width = pos.width * 0.8;
     c.checkMarkTexture.height = pos.height * 0.8;
 
     c.pos = pos;
     
     return c;
+}
+
+//Checks if mouse is trying to checkmark the checkbox
+void checkToCheck(Checkbox *c) {
+    Rectangle r;
+    r.width = 1;
+    r.height = 1;
+    r.x = GetMouseX();
+    r.y = GetMouseY();
+
+    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
+       CheckCollisionRecs(r, (Rectangle) {c->pos.x, c->pos.y,
+                                          c->borderTexture.width,
+                                          c->borderTexture.height}))
+            c->isChecked = !c->isChecked;
 }
 
 void renderCheckbox(Checkbox c) {

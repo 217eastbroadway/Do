@@ -21,6 +21,23 @@ Do createDo(bool isChecked, const char* doText, const char* fontFile, const char
     return d;
 }
 
+void checkToDo(Do *d) {
+    Rectangle r;
+    r.width = 1;
+    r.height = 1;
+    r.x = GetMouseX();
+    r.y = GetMouseY();
+
+    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) &&
+       CheckCollisionRecs(r, (Rectangle) {d->x, d->y,
+                                          d->checkbox.borderTexture.width + 
+                                          (d->text.fontSize * strlen(d->text.string)) + 
+                                          (d->checkbox.borderTexture.height * 0.2),
+                                          d->checkbox.borderTexture.height}))
+            d->checkbox.isChecked = !d->checkbox.isChecked;
+}
+
+
 void renderDo(Do* d) {
     renderCheckbox(d->checkbox);
     renderText(d->text);

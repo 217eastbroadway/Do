@@ -21,4 +21,7 @@ typedef struct {
 
 Checkbox createCheckbox(bool isChecked, const char* borderTextureFile, const char* checkMarkTextureFile, Rectangle pos);
 
+//Checks if mouse is trying to checkmark the checkbox
+void checkToCheck(Checkbox *c);
+
 void renderCheckbox(Checkbox c);
