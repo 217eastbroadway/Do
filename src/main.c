@@ -8,11 +8,10 @@
 void jaja(Text *t) {
     int key;
     do {
-        key = GetKeyPressed();
+        key = GetCharPressed();
 
         char* str = (char*)malloc((sizeof(char) * strlen(t->string)) + (sizeof(char) * 2));
         strcpy(str, t->string);
-
 
         if(key == KEY_BACKSPACE && strlen(t->string) > 2) 
             str[strlen(str) - 1] = 0;
@@ -47,7 +46,7 @@ int main() {
             checkToDo(&v[i]);
 
         if(isClicked(b))
-            printf("Hello\n");
+            setText(&t, "> ");
 
         ClearBackground(WHITE);
         BeginDrawing();
@@ -58,8 +57,6 @@ int main() {
         renderButton(b);
         renderText(t);
 
-        EndDrawing();
-
-        
+        EndDrawing();   
     }
 }
