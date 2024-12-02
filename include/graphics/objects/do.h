@@ -2,6 +2,7 @@
 #include <graphics/general.h>
 #include <graphics/objects/checkbox.h>
 #include <graphics/objects/text.h>
+#include <graphics/objects/button.h>
 
 #include <raylib.h>
 #include <string.h>
@@ -20,5 +21,7 @@ typedef struct {
 Do createDo(bool isChecked, const char* doText, const char* fontFile, const char* borderTextureFile, const char* checkMarkTextureFile, Rectangle pos);
 
 void checkToDo(Do *d);
+
+void createDoDialog(Do** v, int *size);
 
 void renderDo(Do* d);

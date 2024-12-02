@@ -1,5 +1,6 @@
 #pragma once
 #include <graphics/general.h>
+#include <graphics/objects/text.h>
 #include <raylib.h>
 #include <string.h>
 #include <stdlib.h>
@@ -15,10 +16,12 @@
 
 typedef struct {
     Texture2D buttonTexture;
+    Text text;
+
     Rectangle pos;
 } Button;
 
-Button createButton(const char* buttonTextureFile, Rectangle pos);
+Button createButton(Text text, const char* buttonTextureFile, Rectangle pos);
 
 bool isClicked(Button b);
 

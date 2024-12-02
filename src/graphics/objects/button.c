@@ -1,11 +1,14 @@
 #include <graphics/objects/button.h>
 
-Button createButton(const char* buttonTextureFile, Rectangle pos) {
+Button createButton(Text text, const char* buttonTextureFile, Rectangle pos) {
     Button b;
     b.buttonTexture = createTexture2D(buttonTextureFile);
 
     b.buttonTexture.width = pos.width;
     b.buttonTexture.height = pos.height;   
+
+    b.text = createText(text.string, "?", pos.height - strlen(text.string), WHITE, pos.x, pos.y);
+    b.text.font = text.font;
 
     b.pos = pos;
 
@@ -30,4 +33,5 @@ bool isClicked(Button b) {
 
 void renderButton(Button b) {
     DrawTexture(b.buttonTexture, b.pos.x, b.pos.y, WHITE);
+    renderText(b.text);
 }
