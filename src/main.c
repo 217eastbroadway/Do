@@ -8,28 +8,41 @@
 int main() {
     InitWindow(300, 800, "Do");
 
-    int vSize = 3;
-    Do *v = malloc(sizeof(Do) * 3);
-    v[0] = createDo(true, "217eastbroadway", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 10, 200, 76});
-    v[1] = createDo(false, "templeos", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 96, 200, 76});
-    v[2] = createDo(true, "unchecked", "res/fonts/helvetica_neue_65.ttf", "res/textures/borderBLACK.png", "res/textures/checkmark2.png", (Rectangle) {10, 182, 200, 76});
+    int vSize = 0;
+    Do *v;
 
-    Button b = createButton(createText("+", "res/fonts/helvetica_neue_65.ttf", 35.0f, BLACK, 0, 0), "res/textures/buttonaqua.png", (Rectangle) {250, 750, 35, 35});
+    Text header = createText("Tasks", "res/fonts/helvetica_neue_65.ttf", 50.0f, BLACK, 10, 10);
+    Rectangle breakline = {10, 65, 280, 1};
+    Button create = createButton(createText("+", "res/fonts/helvetica_neue_65.ttf", 35.0f, BLACK, 0, 0), "res/textures/buttonaqua.png", (Rectangle) {250, 750, 35, 35});
+    Button delete = createButton(createText("-", "res/fonts/helvetica_neue_65.ttf", 35.0f, BLACK, 0, 0), "res/textures/buttonaqua.png", (Rectangle) {210, 750, 35, 35});
 
     while(!WindowShouldClose()) {
-        if(isClicked(b)) 
+        //Input checking
+        if(isClicked(create)) {
             createDoDialog(&v, &vSize);
+
+            for(int i = 0; i < vSize; i++)
+                printf("<ineedadebugger@main> %d @ %p\n", i, &v[i]);
+        }
+
+        if(isClicked(delete)) 
+            deleteDoDialog(&v, &vSize);
         
         for(int i = 0; i < vSize; i++)
             checkToDo(&v[i]);
 
+        //Rendering
         ClearBackground(WHITE);
         BeginDrawing();
 
+        //Tasks (DOs)
         for(int i = 0; i < vSize; i++)
             renderDo(&v[i]);
 
-        renderButton(b);
+        renderText(header);
+        DrawRectangle(breakline.x, breakline.y, breakline.width, breakline.height, BLACK);
+        renderButton(create);
+        renderButton(delete);
         EndDrawing();   
     }
 }

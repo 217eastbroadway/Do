@@ -24,4 +24,6 @@ void checkToDo(Do *d);
 
 void createDoDialog(Do** v, int *size);
 
+void deleteDoDialog(Do** v, int *size);
+
 void renderDo(Do* d);
