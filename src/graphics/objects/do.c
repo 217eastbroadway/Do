@@ -68,15 +68,16 @@ void createDoDialog(Do** v, int *size) {
     Text description = createText("Enter task name: ", "res/fonts/helvetica_neue_65.ttf", 25.0f, BLACK, 25, 300);
     Text text = createText("", "res/fonts/helvetica_neue_65.ttf", 30.0f, WHITE, 30, 335);
     Rectangle textbox = {25, 330, 250, 35};
-    Button cancel = createButton(createText("Cancel", "res/fonts/helvetica_neue_65.ttf", 35.0f, BLACK, 0, 0), 
-                                 "res/textures/btncancel.png", 
+    Button cancelButton = createButton(createText("Cancel", "res/fonts/helvetica_neue_65.ttf", 35.0f, BLACK, 0, 0), 
+                                 "res/textures/btnred.png", 
                                  (Rectangle) {25, 370, 122, 30});
 
-    Button confirm = createButton(createText("Confirm", "res/fonts/helvetica_neue_65.ttf", 35.0f, BLACK, 0, 0), 
-                                 "res/textures/btnconfirm.png", 
+    Button confirmButton = createButton(createText("Confirm", "res/fonts/helvetica_neue_65.ttf", 35.0f, BLACK, 0, 0), 
+                                 "res/textures/btngreen.png", 
                                  (Rectangle) {152, 370, 122, 30});
 
     bool end = false;
+    bool confirm = false;
     while(!end) {
         if(WindowShouldClose())
             exit(0);
@@ -91,10 +92,12 @@ void createDoDialog(Do** v, int *size) {
             key = GetKeyPressed();
             c = (char)GetCharPressed();
 
-            if(key == KEY_ESCAPE || isClicked(confirm)) {
+            if(key == KEY_ENTER || isClicked(confirmButton)) {
                 end = true;
-                break;
+                confirm = true;
             }
+            if(isClicked(cancelButton))
+                end = true;
 
             char* str = (char*)malloc((sizeof(char) * strlen(text.string)) + (sizeof(char) * 2));
             strcpy(str, text.string);
@@ -111,34 +114,35 @@ void createDoDialog(Do** v, int *size) {
         DrawRectangle(textbox.x, textbox.y, textbox.width, textbox.height, BLUE);
         renderText(text);
 
-        renderButton(cancel);
-        renderButton(confirm);
+        renderButton(cancelButton);
+        renderButton(confirmButton);
 
         EndDrawing();
     }
 
-    Do* vCopy = (Do*)malloc(sizeof(Do) * (++(*size)));
-    if(!vCopy)
-        exit(1);
+    if(confirm) {
+        Do* vCopy = (Do*)malloc(sizeof(Do) * (++(*size)));
+        if(!vCopy)
+            exit(1);
 
-    if((*size) > 1) {
-        memcpy(vCopy, *v, sizeof(Do) * ((*size) - 1));
+        if((*size) > 1) {
+            memcpy(vCopy, *v, sizeof(Do) * ((*size) - 1));
 
-        vCopy[(*size) - 1] = createDo(false, text.string, "res/fonts/helvetica_neue_65.ttf", 
-                                    "res/textures/borderBLACK.png", "res/textures/checkmark2.png", 
-                                    (Rectangle) {vCopy[(*size) - 2].x, vCopy[(*size) - 2].y + 86, 200, 70});
+            vCopy[(*size) - 1] = createDo(false, text.string, "res/fonts/helvetica_neue_65.ttf", 
+                                        "res/textures/borderBLACK.png", "res/textures/checkmark2.png", 
+                                        (Rectangle) {vCopy[(*size) - 2].x, vCopy[(*size) - 2].y + 86, 200, 70});
+        }
+        else vCopy[(*size) - 1] = createDo(false, text.string, "res/fonts/helvetica_neue_65.ttf", 
+                                        "res/textures/borderBLACK.png", "res/textures/checkmark2.png", 
+                                            (Rectangle) {10, 85, 200, 70});
+
+        *v = vCopy;
     }
-    else vCopy[(*size) - 1] = createDo(false, text.string, "res/fonts/helvetica_neue_65.ttf", 
-                                       "res/textures/borderBLACK.png", "res/textures/checkmark2.png", 
-                                        (Rectangle) {10, 85, 200, 70});
 
-    *v = vCopy;
+    // for(int i = 0; i < *size; i++)<
+    //     printf("<ineedadebugger> %d @ %p\n", i, &(*v)[i]);
 
-
-    for(int i = 0; i < *size; i++)
-        printf("<ineedadebugger> %d @ %p\n", i, &(*v)[i]);
-
-    WaitTime(0.3);
+    // WaitTime(0.3);>
 }
 
 void deleteDoDialog(Do** v, int *size) {
