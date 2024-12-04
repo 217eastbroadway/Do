@@ -15,6 +15,7 @@
 */
 
 typedef struct {
+    char* buttonTextureFile;
     Texture2D buttonTexture;
     Text text;
 

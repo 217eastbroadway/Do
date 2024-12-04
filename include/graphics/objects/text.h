@@ -8,7 +8,10 @@
 
 typedef struct {
     char* string;
+
+    char* fontFile;
     Font font;
+    
     float fontSize;
     Color textColor;
 

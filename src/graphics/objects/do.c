@@ -22,21 +22,28 @@ Do createDo(bool isChecked, const char* doText, const char* fontFile, const char
 }
 
 void deleteDo(Do** v, int index, int *size) {
-    if((*size) < 2) {
+    if((*size) < 2) {                    
         *v = NULL;
         *size = 0;
         return;
     }
 
-    for(int i = index; i < (*size) - 2; i++)
-        *v[i] = *v[i+1];
+    for(int i = index; i < (*size) - 1; i++) {
+        Do copy = (*v)[i];
+        (*v)[i] = createDo((*v)[i+1].checkbox.isChecked, (*v)[i+1].text.string, (*v)[i+1].text.fontFile, 
+                           (*v)[i+1].checkbox.borderTextureFile, (*v)[i+1].checkbox.checkMarkTextureFile,
+                           (Rectangle) {(*v)[i].x, (*v)[i].y, 200, 70});
+                    
+        printf("<ineedadebugger> [%d] -> bText: %s\n", i+1, (*v)[i+1].text.fontFile);
+        WaitTime(0.5);
+    }
 
-    *(size)--;
+    (*size)--;
 
     // printf("<ineedadebugger>\n");
     // for(int i = 0; i < (*size); i++)
-    //     printf("%s", *v[i]->text.string);
-    // WaitTime(3);
+    //     printf("%s @ %p\n", (*v)[i].text.string, &(*v)[i]);
+    // WaitTime(1);
 }
 
 void checkToDo(Do *d) {
@@ -129,7 +136,7 @@ void createDoDialog(Do** v, int *size) {
 
 
     for(int i = 0; i < *size; i++)
-        printf("<ineedadebugger> %d @ %p\n", i, &(*v[i]));
+        printf("<ineedadebugger> %d @ %p\n", i, &(*v)[i]);
 
     WaitTime(0.3);
 }
@@ -156,11 +163,11 @@ void deleteDoDialog(Do** v, int *size) {
         r.height = 1;
         r.x = GetMouseX();
         r.y = GetMouseY();
-        int i = 5;
+        int i = 0;
         for(; i < (*size); i++) {
-            if(CheckCollisionRecs(r, (Rectangle) {(*v[i]).checkbox.pos.x, (*v[i]).checkbox.pos.y,
-                                                  (*v[i]).checkbox.borderTexture.width + (*v[i]).checkbox.borderTexture.width * 0.2 + MeasureText((*v[i]).text.string, (*v[i]).text.fontSize),
-                                                  (*v[i]).checkbox.borderTexture.height})) {
+            if(CheckCollisionRecs(r, (Rectangle) {(*v)[i].checkbox.pos.x, (*v)[i].checkbox.pos.y,
+                                                  (*v)[i].checkbox.borderTexture.width + (*v)[i].checkbox.borderTexture.width * 0.2 + MeasureText((*v)[i].text.string, (*v)[i].text.fontSize),
+                                                  (*v)[i].checkbox.borderTexture.height})){
                                                     printf("<ineedadebugger> FOUND ONE!\n");
                                                     break;
                                                   }
@@ -170,9 +177,9 @@ void deleteDoDialog(Do** v, int *size) {
         if(i < (*size)) {
             hoveredTaskButton = createButton(createText("", "res/fonts/helvetica_neue_65.ttf", 35.0f, BLACK, 0, 0), 
                                                         "res/textures/btnred.png", 
-                                                        (Rectangle) {(*v[i]).checkbox.pos.x, (*v[i]).checkbox.pos.y,
-                                                        (*v[i]).checkbox.borderTexture.width + (*v[i]).checkbox.borderTexture.width * 0.2 + MeasureText((*v[i]).text.string, (*v[i]).text.fontSize),
-                                                        (*v[i]).checkbox.borderTexture.height});
+                                                        (Rectangle) {(*v)[i].checkbox.pos.x, (*v)[i].checkbox.pos.y,
+                                                        (*v)[i].checkbox.borderTexture.width + (*v)[i].checkbox.borderTexture.width * 0.2 + MeasureText((*v)[i].text.string, (*v)[i].text.fontSize),
+                                                        (*v)[i].checkbox.borderTexture.height});
             
             if(isClicked(hoveredTaskButton)) {
                 printf("<ineedadebugger> deleted %i\n", i);
@@ -191,7 +198,7 @@ void deleteDoDialog(Do** v, int *size) {
         
         // Tasks (DOs)
         for(int i = 0; i < (*size); i++)
-            renderDo(&(*v[i]));
+            renderDo((*v)[i]);
 
         renderText(header);
         renderButton(doneButton);
@@ -200,7 +207,7 @@ void deleteDoDialog(Do** v, int *size) {
     }
 }
 
-void renderDo(Do* d) {
-    renderCheckbox(d->checkbox);
-    renderText(d->text);
+void renderDo(Do d) {
+    renderCheckbox(d.checkbox);
+    renderText(d.text);
 }

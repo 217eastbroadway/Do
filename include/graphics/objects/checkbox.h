@@ -13,9 +13,12 @@
 
 typedef struct {
     bool isChecked;
-
+    
+    char* borderTextureFile;
+    char* checkMarkTextureFile;
     Texture2D borderTexture;
     Texture2D checkMarkTexture;
+
     Rectangle pos;
 } Checkbox;
 

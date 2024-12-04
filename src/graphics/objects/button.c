@@ -2,6 +2,10 @@
 
 Button createButton(Text text, const char* buttonTextureFile, Rectangle pos) {
     Button b;
+
+    b.buttonTextureFile = (char*)malloc((sizeof(char) * strlen(buttonTextureFile)) + (sizeof(char) * 1));
+    strcpy(b.buttonTextureFile, buttonTextureFile);
+    
     b.buttonTexture = createTexture2D(buttonTextureFile);
 
     b.buttonTexture.width = pos.width;

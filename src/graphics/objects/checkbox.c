@@ -3,6 +3,12 @@
 Checkbox createCheckbox(bool isChecked, const char* borderTextureFile, const char* checkMarkTextureFile, Rectangle pos) {
     Checkbox c;
     c.isChecked = isChecked;
+
+    c.borderTextureFile = (char*)malloc((sizeof(char) * strlen(borderTextureFile)) + (sizeof(char) * 1));
+    strcpy(c.borderTextureFile, borderTextureFile);
+    c.checkMarkTextureFile = (char*)malloc((sizeof(char) * strlen(checkMarkTextureFile)) + (sizeof(char) * 1));
+    strcpy(c.checkMarkTextureFile, checkMarkTextureFile);
+
     c.borderTexture = createTexture2D(borderTextureFile);
     c.checkMarkTexture = createTexture2D(checkMarkTextureFile);
 

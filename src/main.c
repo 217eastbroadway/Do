@@ -37,7 +37,7 @@ int main() {
 
         //Tasks (DOs)
         for(int i = 0; i < vSize; i++)
-            renderDo(&v[i]);
+            renderDo(v[i]);
 
         renderText(header);
         DrawRectangle(breakline.x, breakline.y, breakline.width, breakline.height, BLACK);
