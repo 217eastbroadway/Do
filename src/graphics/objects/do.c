@@ -13,10 +13,10 @@ Do createDo(bool isChecked, const char* doText, const char* fontFile, const char
 
     d.text = createText(doText,
                         fontFile,
-                        GetScreenWidth() / strlen(doText),
+                        35.0f, // GetScreenWidth() / strlen(doText),
                         BLACK,
                         pos.x + pos.height + pos.height * 0.2,
-                        pos.y + (pos.height / 2));
+                        pos.y + (pos.height * 0.31));
 
     return d;
 }
@@ -34,8 +34,8 @@ void deleteDo(Do** v, int index, int *size) {
                            (*v)[i+1].checkbox.borderTextureFile, (*v)[i+1].checkbox.checkMarkTextureFile,
                            (Rectangle) {(*v)[i].x, (*v)[i].y, 200, 70});
                     
-        printf("<ineedadebugger> [%d] -> bText: %s\n", i+1, (*v)[i+1].text.fontFile);
-        WaitTime(0.5);
+        // printf("<ineedadebugger> [%d] -> bText: %s\n", i+1, (*v)[i+1].text.fontFile);
+        // WaitTime(0.5);
     }
 
     (*size)--;
@@ -96,7 +96,7 @@ void createDoDialog(Do** v, int *size) {
                 end = true;
                 confirm = true;
             }
-            if(isClicked(cancelButton))
+            if(key == KEY_ESCAPE || isClicked(cancelButton))
                 end = true;
 
             char* str = (char*)malloc((sizeof(char) * strlen(text.string)) + (sizeof(char) * 2));
@@ -130,11 +130,11 @@ void createDoDialog(Do** v, int *size) {
 
             vCopy[(*size) - 1] = createDo(false, text.string, "res/fonts/helvetica_neue_65.ttf", 
                                         "res/textures/borderBLACK.png", "res/textures/checkmark2.png", 
-                                        (Rectangle) {vCopy[(*size) - 2].x, vCopy[(*size) - 2].y + 86, 200, 70});
+                                        (Rectangle) {vCopy[(*size) - 2].x, vCopy[(*size) - 2].y + 86, 280, 70});
         }
         else vCopy[(*size) - 1] = createDo(false, text.string, "res/fonts/helvetica_neue_65.ttf", 
                                         "res/textures/borderBLACK.png", "res/textures/checkmark2.png", 
-                                            (Rectangle) {10, 85, 200, 70});
+                                            (Rectangle) {10, 85, 280, 70});
 
         *v = vCopy;
     }
@@ -142,16 +142,19 @@ void createDoDialog(Do** v, int *size) {
     // for(int i = 0; i < *size; i++)<
     //     printf("<ineedadebugger> %d @ %p\n", i, &(*v)[i]);
 
-    // WaitTime(0.3);>
+    // WaitTime(0.3);
 }
 
 void deleteDoDialog(Do** v, int *size) {
+    Text header = createText("Delete Task", "res/fonts/helvetica_neue_65.ttf", 50.0f, RED, 10, 10);
+    Rectangle breakline = {10, 65, 280, 1};
     Button doneButton = createButton(createText("Done", "res/fonts/helvetica_neue_65.ttf", 35.0f, WHITE, 0, 0), 
                                        "res/textures/buttonaqua.png", 
                                        (Rectangle) {250, 750, 35, 35});
 
-    Text header = createText("Delete Task", "res/fonts/helvetica_neue_65.ttf", 50.0f, RED, 10, 10);
-    Rectangle breakline = {10, 65, 280, 1};
+    Button hoveredTaskButton = createButton(createText("", "res/fonts/helvetica_neue_65.ttf", 35.0f, BLACK, 0, 0), 
+                                                       "res/textures/btnred.png", 
+                                                       (Rectangle) {0, 0, 290, 80});
 
     bool end = false;
     while(!end) {
@@ -172,21 +175,16 @@ void deleteDoDialog(Do** v, int *size) {
             if(CheckCollisionRecs(r, (Rectangle) {(*v)[i].checkbox.pos.x, (*v)[i].checkbox.pos.y,
                                                   (*v)[i].checkbox.borderTexture.width + (*v)[i].checkbox.borderTexture.width * 0.2 + MeasureText((*v)[i].text.string, (*v)[i].text.fontSize),
                                                   (*v)[i].checkbox.borderTexture.height})){
-                                                    printf("<ineedadebugger> FOUND ONE!\n");
+                                                    // printf("<ineedadebugger> FOUND ONE!\n");
                                                     break;
                                                   }
         }
 
-        Button hoveredTaskButton;
         if(i < (*size)) {
-            hoveredTaskButton = createButton(createText("", "res/fonts/helvetica_neue_65.ttf", 35.0f, BLACK, 0, 0), 
-                                                        "res/textures/btnred.png", 
-                                                        (Rectangle) {(*v)[i].checkbox.pos.x, (*v)[i].checkbox.pos.y,
-                                                        (*v)[i].checkbox.borderTexture.width + (*v)[i].checkbox.borderTexture.width * 0.2 + MeasureText((*v)[i].text.string, (*v)[i].text.fontSize),
-                                                        (*v)[i].checkbox.borderTexture.height});
+            hoveredTaskButton.pos = (Rectangle) {(*v)[i].checkbox.pos.x - 5, (*v)[i].checkbox.pos.y - 5, 290, 80};
             
             if(isClicked(hoveredTaskButton)) {
-                printf("<ineedadebugger> deleted %i\n", i);
+                // printf("<ineedadebugger> deleted %i\n", i);
                 deleteDo(v, i, size);
                 // WaitTime(1);
             }

@@ -6,7 +6,7 @@ Text createText(const char* string, const char* fontFile, float fontSize, Color 
     t.fontFile = (char*)malloc((sizeof(char) * strlen(fontFile)) + (sizeof(char) * 1));
     strcpy(t.fontFile, fontFile);
     
-    t.font = createFont(fontFile);
+    t.font = createFont(fontFile, fontSize);
     
     t.string = (char*)malloc(sizeof(char) * strlen(string) + 1);
     strcpy(t.string, string);

@@ -7,6 +7,7 @@
 
 int main() {
     InitWindow(300, 800, "Do");
+    SetExitKey(0);
 
     int vSize = 0;
     Do *v;
@@ -21,8 +22,8 @@ int main() {
         if(isClicked(create)) {
             createDoDialog(&v, &vSize);
 
-            for(int i = 0; i < vSize; i++)
-                printf("<ineedadebugger@main> %d @ %p\n", i, &v[i]);
+            // for(int i = 0; i < vSize; i++)
+            //     printf("<ineedadebugger@main> %d @ %p\n", i, &v[i]);
         }
 
         if(isClicked(delete)) 

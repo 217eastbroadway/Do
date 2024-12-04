@@ -1,8 +1,8 @@
 #include <graphics/general.h>
 
-Font createFont(const char* fontFile) {
-    Font temp = LoadFont(fontFile);
-    // SetTextureFilter(temp.texture, TEXTURE_FILTER_TRILINEAR);
+Font createFont(const char* fontFile, float fontSize) {
+    Font temp = LoadFontEx(fontFile, fontSize, 0, 0);
+    SetTextureFilter(temp.texture, TEXTURE_FILTER_TRILINEAR);
 
     return temp;
 }
