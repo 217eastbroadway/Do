@@ -20,6 +20,10 @@ Text createText(const char* string, const char* fontFile, float fontSize, Color 
     return t;
 }
 
+bool isHovered(Text t) {
+    //<TODO>: the whole function.
+}
+
 void setText(Text *t, const char* string) {
     t->string = (char*)malloc(sizeof(char) * strlen(string) + 1);
     strcpy(t->string, string);

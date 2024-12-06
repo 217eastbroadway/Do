@@ -21,6 +21,8 @@ typedef struct {
 
 Text createText(const char* string, const char* fontFile, float fontSize, Color textColor, int x, int y);
 
+bool isHovered(Text t);
+
 void setText(Text *t, const char* string);
 
 void renderText(Text t);

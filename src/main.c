@@ -19,18 +19,19 @@ int main() {
 
     while(!WindowShouldClose()) {
         //Input checking
-        if(isClicked(create)) {
+        if(isClicked(create)) 
             createDoDialog(&v, &vSize);
-
-            // for(int i = 0; i < vSize; i++)
-            //     printf("<ineedadebugger@main> %d @ %p\n", i, &v[i]);
-        }
 
         if(isClicked(delete)) 
             deleteDoDialog(&v, &vSize);
         
         for(int i = 0; i < vSize; i++)
             checkToDo(&v[i]);
+
+        float scroll = GetMouseWheelMove() * 10;
+        for(int i = 0; i < vSize; i++) {
+            setDoPos(&v[i], (Rectangle) {v[i].x, v[i].y - scroll, v[i].checkbox.pos.width, v[i].checkbox.pos.height});
+        }
 
         //Rendering
         ClearBackground(WHITE);
@@ -40,6 +41,7 @@ int main() {
         for(int i = 0; i < vSize; i++)
             renderDo(v[i]);
 
+        DrawRectangle(0, 0, 300, 85, WHITE);
         renderText(header);
         DrawRectangle(breakline.x, breakline.y, breakline.width, breakline.height, BLACK);
         renderButton(create);
