@@ -22,6 +22,8 @@ Do createDo(bool isChecked, const char* doText, const char* fontFile, const char
 }
 
 void setDoPos(Do* d, Rectangle pos) {
+    d->x = pos.x;
+    d->y = pos.y;
     d->checkbox.pos = (Rectangle) {pos.x, pos.y, pos.height, pos.height};
     d->text.x = pos.x + pos.height + pos.height * 0.2;
     d->text.y = pos.y + (pos.height * 0.31);
