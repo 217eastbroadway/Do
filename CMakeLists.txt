@@ -19,4 +19,6 @@ set(SOURCES
 add_executable(Do ${SOURCES})
 
 target_link_libraries(Do PRIVATE raylib)
-target_link_libraries(Do PRIVATE opengl32 gdi32 winmm)
+if(WIN32)
+    target_link_libraries(Do PRIVATE opengl32 gdi32 winmm)
+endif()
