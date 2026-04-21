@@ -2,18 +2,21 @@ cmake_minimum_required(VERSION 3.10)
 
 project(Do CXX)
 
+set(BUILD "build")
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD})
 
-# 5. Tell CMake where to look for your header files
-# Now you can use #include "my_header.h" instead of #include "../include/my_header.h"
 include_directories(include)
+link_directories(lib)
 
-# 6. Gather your source files
-# Best practice is to list them explicitly:
 set(SOURCES 
     src/main.cpp
-    # src/another_file.cpp 
+    
 )
 
 add_executable(Do ${SOURCES})
+
+target_link_libraries(Do PRIVATE raylib)
+target_link_libraries(Do PRIVATE opengl32 gdi32 winmm)
