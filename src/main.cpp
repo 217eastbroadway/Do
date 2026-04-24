@@ -3,6 +3,13 @@
 #include <string>
 #include "raylib/raylib.h"
 
+#define TASK_WIDTH 300 * SCALE
+#define TASK_HEIGHT 50 * SCALE
+#define TASK_FONT_SIZE 30.0f * SCALE
+#define WINDOW_HEIGHT 300 * SCALE
+#define WINDOW_WIDTH 300 * SCALE
+#define SCALE 3
+
 class Task {
     private:
         //Logic
@@ -10,14 +17,15 @@ class Task {
         std::string description;
         bool isChecked;
 
-        Vector3 bgColor; //Default = white/transparent
+        Color bgColor; //Default = white/transparent
     public:
         //Constructors
 
-        Task(const char *name, const char *description, Vector3 bgColor) { //Default Constructor
+        Task(const char *name, const char *description, Color bgColor) { //Default Constructor
             this->name = name;
             this->description = description;
             this->bgColor = bgColor;
+            this->isChecked = false;
         }
 
         Task(const Task& copy) { //Copy constructor
@@ -40,7 +48,7 @@ class Task {
             return isChecked;
         }
 
-        Vector3 getBgColor() {
+        Color getBgColor() {
             return bgColor;
         }
 
@@ -57,7 +65,7 @@ class Task {
             this->isChecked = isChecked;
         }
         
-        void setBgColor(Vector3 bgColor) {
+        void setBgColor(Color bgColor) {
             this->bgColor = bgColor;
         }
 
@@ -65,21 +73,39 @@ class Task {
 };
 
 int main() {
-    InitWindow(300, 300, "Do");
+    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Do");
 
-    Texture2D checked = LoadTexture("res/checked.png");        
-    Font font = LoadFontEx("res/helvetica.otf", 30, NULL, 0);
+    std::vector<Task> tasks;
+    tasks.push_back(Task("Do", "", {255, 175, 0, 255}));
+    tasks.push_back(Task("Don't", "", {0, 150, 255, 255}));
+    tasks.push_back(Task("Maybe Do", "", {255, 0, 150, 255}));
+    tasks.push_back(Task("Unsure", "", {0, 255, 150, 255}));
+    tasks.push_back(Task("Almost Sure", "", {255, 0, 200, 255}));
+    tasks.push_back(Task("Pretty Sure", "", {255, 0, 0, 255}));
+    tasks[2].setIsChecked(true);
+
+    std::vector<Texture2D> textures;
+    textures.push_back(LoadTexture("res/checked.png"));
+    textures.push_back(LoadTexture("res/unchecked.png"));
+
+    Font font = LoadFontEx("res/helvetica.otf", TASK_FONT_SIZE, NULL, 0);
 
     while(!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
-        
-        // std::vector<TextureX*> textures;
-        // textures.push_back(new TextureX("res/checked.png", "checked"));
-        // textures.push_back(new TextureX("res/unchecked.png", "checked"));
-        // DrawTextureEx(checked, {0, 0}, 0.0f, 0.1f, WHITE);
-        // DrawTextEx(font, "Task", {(checked.width * 0.1f), (checked.height * 0.1f) / 2 - 30 / 2 }, 30.0f, 0.0f, WHITE);
-        DrawTextEx(font, "Task", {15, 15}, 30.0f, 0.0f, WHITE);
+
+        for(int i = 0; i<tasks.size(); i++) {
+            DrawRectangle(0, (TASK_HEIGHT * i), TASK_WIDTH, TASK_HEIGHT, tasks[i].getBgColor());
+
+            if(tasks[i].getIsChecked())
+                DrawTextureEx(textures[0], {0, (float)(TASK_HEIGHT * i)}, 0.0f, ((float)TASK_HEIGHT / textures[0].width), WHITE);
+            else
+                DrawTextureEx(textures[1], {0, (float)(TASK_HEIGHT * i)}, 0.0f, ((float)TASK_HEIGHT / textures[1].width), WHITE);
+
+            // printf("%d // %d // %f\n", TASK_HEIGHT * i, i, (float)TASK_HEIGHT / textures[0].width);
+
+            DrawTextEx(font, tasks[i].getName(), {(float)(TASK_HEIGHT + 15), (float)(TASK_HEIGHT * i)}, TASK_FONT_SIZE, 0.0f, WHITE);
+        }
 
         EndDrawing();
     }
