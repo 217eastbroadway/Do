@@ -13,7 +13,7 @@ link_directories(lib)
 
 set(SOURCES 
     src/main.cpp
-    
+    src/task.cpp
 )
 
 add_executable(Do ${SOURCES})

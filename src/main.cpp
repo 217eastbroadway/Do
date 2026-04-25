@@ -2,82 +2,21 @@
 #include <vector>
 #include <string>
 #include "raylib/raylib.h"
+#include "task.hpp"
 
-#define TASK_WIDTH 300 * SCALE
+#define TASK_WIDTH WINDOW_WIDTH * SCALE
 #define TASK_HEIGHT 50 * SCALE
 #define TASK_FONT_SIZE 30.0f * SCALE
-#define WINDOW_HEIGHT 300 * SCALE
+#define WINDOW_HEIGHT 600 * SCALE
 #define WINDOW_WIDTH 300 * SCALE
-#define SCALE 3
-
-class Task {
-    private:
-        //Logic
-        std::string name;
-        std::string description;
-        bool isChecked;
-
-        Color bgColor; //Default = white/transparent
-    public:
-        //Constructors
-
-        Task(const char *name, const char *description, Color bgColor) { //Default Constructor
-            this->name = name;
-            this->description = description;
-            this->bgColor = bgColor;
-            this->isChecked = false;
-        }
-
-        Task(const Task& copy) { //Copy constructor
-            this->name = copy.name;
-            this->description = copy.description;
-            this->isChecked = copy.isChecked;
-            this->bgColor = copy.bgColor;
-        }
-        
-        //Getters
-        const char *getName() {
-            return name.c_str();
-        }
-
-        const char *getDescription() {
-            return description.c_str();
-        }
-
-        bool getIsChecked() {
-            return isChecked;
-        }
-
-        Color getBgColor() {
-            return bgColor;
-        }
-
-        //Setters
-        void setName(const char* name) {
-            this->name = name;
-        }
-
-        void setDescription(const char *description) {
-            this->description = description;
-        }
-
-        void setIsChecked(bool isChecked) {
-            this->isChecked = isChecked;
-        }
-        
-        void setBgColor(Color bgColor) {
-            this->bgColor = bgColor;
-        }
-
-        //i am such a faggot!!
-};
+#define SCALE 1.25
 
 int main() {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Do");
 
     std::vector<Task> tasks;
     tasks.push_back(Task("Do", "", {255, 175, 0, 255}));
-    tasks.push_back(Task("Don't", "", {0, 150, 255, 255}));
+    tasks.push_back(Task("Dont", "", {0, 150, 255, 255}));
     tasks.push_back(Task("Maybe Do", "", {255, 0, 150, 255}));
     tasks.push_back(Task("Unsure", "", {0, 255, 150, 255}));
     tasks.push_back(Task("Almost Sure", "", {255, 0, 200, 255}));
