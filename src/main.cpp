@@ -16,6 +16,7 @@ int main() {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Do");
 
     std::vector<Task> tasks;
+    loadEverything("tasks.do", tasks); //Load tasks at start
 
     std::vector<Texture2D> textures;
     textures.push_back(LoadTexture("res/checked.png"));
@@ -30,9 +31,9 @@ int main() {
         //Debug Input Handling
         if(IsKeyDown(KEY_LEFT_CONTROL)) 
             if(IsKeyReleased(KEY_S))
-                saveEverything(tasks);
+                saveEverything("tasks.do", tasks);
             if(IsKeyReleased(KEY_L))
-                loadEverything("save.dorec", tasks);
+                loadEverything("tasks.do", tasks);
             
 
         //Input Handling
@@ -45,6 +46,7 @@ int main() {
 
                 if(clickedTaskIndex < tasks.size()) { //Check if out of bounds
                     tasks[clickedTaskIndex].setIsChecked(!tasks[clickedTaskIndex].getIsChecked()); //invert checkbox status
+                    saveEverything("tasks.do", tasks); //Save change
                 }
             }
         }
