@@ -1,10 +1,18 @@
 #include "task.hpp"
 
+//Task Class
 Task::Task(const char *name, const char *description, Color bgColor) { //Default Constructor
     this->name = name;
     this->description = description;
     this->bgColor = bgColor;
     this->isChecked = false;
+}
+
+Task::Task(const char *name, const char *description, bool isChecked, Color bgColor) {
+    this->name = name;
+    this->description = description;
+    this->bgColor = bgColor;
+    this->isChecked = isChecked;
 }
 
 Task::Task(const Task& copy) { //Copy constructor

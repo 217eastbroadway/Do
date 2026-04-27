@@ -14,6 +14,7 @@ link_directories(lib)
 set(SOURCES 
     src/main.cpp
     src/task.cpp
+    src/filehandler.cpp
 )
 
 add_executable(Do ${SOURCES})

@@ -3,25 +3,19 @@
 #include <string>
 #include "raylib/raylib.h"
 #include "task.hpp"
+#include "filehandler.hpp"
 
 #define TASK_WIDTH WINDOW_WIDTH * SCALE
 #define TASK_HEIGHT 50 * SCALE
 #define TASK_FONT_SIZE 30.0f * SCALE
 #define WINDOW_HEIGHT 600 * SCALE
 #define WINDOW_WIDTH 300 * SCALE
-#define SCALE 1.25
+#define SCALE 1
 
 int main() {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Do");
 
     std::vector<Task> tasks;
-    tasks.push_back(Task("Do", "", {255, 175, 0, 255}));
-    tasks.push_back(Task("Dont", "", {0, 150, 255, 255}));
-    tasks.push_back(Task("Maybe Do", "", {255, 0, 150, 255}));
-    tasks.push_back(Task("Unsure", "", {0, 255, 150, 255}));
-    tasks.push_back(Task("Almost Sure", "", {255, 0, 200, 255}));
-    tasks.push_back(Task("Pretty Sure", "", {255, 0, 0, 255}));
-    tasks[2].setIsChecked(true);
 
     std::vector<Texture2D> textures;
     textures.push_back(LoadTexture("res/checked.png"));
@@ -33,16 +27,39 @@ int main() {
         BeginDrawing();
         ClearBackground(BLACK);
 
+        //Debug Input Handling
+        if(IsKeyDown(KEY_LEFT_CONTROL)) 
+            if(IsKeyReleased(KEY_S))
+                saveEverything(tasks);
+            if(IsKeyReleased(KEY_L))
+                loadEverything("save.dorec", tasks);
+            
+
+        //Input Handling
+        if(IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+            int mouseX = GetMouseX();
+            int mouseY = GetMouseY();
+
+            if(mouseX >= 0 && mouseX <= TASK_HEIGHT) { //Checking if mouse is inside of checkbox (x) [task_height is the same size as the checkbox]
+                int clickedTaskIndex = mouseY / TASK_HEIGHT; 
+
+                if(clickedTaskIndex < tasks.size()) { //Check if out of bounds
+                    tasks[clickedTaskIndex].setIsChecked(!tasks[clickedTaskIndex].getIsChecked()); //invert checkbox status
+                }
+            }
+        }
+
+        //Rendering
         for(int i = 0; i<tasks.size(); i++) {
             DrawRectangle(0, (TASK_HEIGHT * i), TASK_WIDTH, TASK_HEIGHT, tasks[i].getBgColor());
 
+            int checkboxTextureIndex; 
             if(tasks[i].getIsChecked())
-                DrawTextureEx(textures[0], {0, (float)(TASK_HEIGHT * i)}, 0.0f, ((float)TASK_HEIGHT / textures[0].width), WHITE);
+                checkboxTextureIndex = 0;
             else
-                DrawTextureEx(textures[1], {0, (float)(TASK_HEIGHT * i)}, 0.0f, ((float)TASK_HEIGHT / textures[1].width), WHITE);
+                checkboxTextureIndex = 1;
 
-            // printf("%d // %d // %f\n", TASK_HEIGHT * i, i, (float)TASK_HEIGHT / textures[0].width);
-
+            DrawTextureEx(textures[checkboxTextureIndex], {0, (float)(TASK_HEIGHT * i)}, 0.0f, ((float)TASK_HEIGHT / textures[checkboxTextureIndex].width), WHITE);
             DrawTextEx(font, tasks[i].getName(), {(float)(TASK_HEIGHT + 15), (float)(TASK_HEIGHT * i)}, TASK_FONT_SIZE, 0.0f, WHITE);
         }
 

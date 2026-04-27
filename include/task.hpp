@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -15,6 +17,8 @@ class Task {
         //Constructors
 
         Task(const char *name, const char *description, Color bgColor);
+
+        Task(const char *name, const char *description, bool isChecked, Color bgColor);
 
         Task(const Task& copy);
         
