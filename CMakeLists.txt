@@ -15,6 +15,7 @@ set(SOURCES
     src/main.cpp
     src/task.cpp
     src/filehandler.cpp
+    src/ui/createTask.cpp
 )
 
 add_executable(Do ${SOURCES})

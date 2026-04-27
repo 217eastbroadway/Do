@@ -4,6 +4,7 @@
 #include "raylib/raylib.h"
 #include "task.hpp"
 #include "filehandler.hpp"
+#include "ui.hpp"
 
 #define TASK_WIDTH WINDOW_WIDTH * SCALE
 #define TASK_HEIGHT 50 * SCALE
@@ -13,7 +14,9 @@
 #define SCALE 1
 
 int main() {
+    SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Do");
+    // SetWindowState(FLAG_WINDOW_UNDECORATED); step 1 (widget), will not enable now as i'm still debugging shit
 
     std::vector<Task> tasks;
     loadEverything("tasks.do", tasks); //Load tasks at start
@@ -34,6 +37,8 @@ int main() {
                 saveEverything("tasks.do", tasks);
             if(IsKeyReleased(KEY_L))
                 loadEverything("tasks.do", tasks);
+            if(IsKeyReleased(KEY_N))
+                ui::createTask(tasks);
             
 
         //Input Handling
@@ -52,20 +57,40 @@ int main() {
         }
 
         //Rendering
+        //TODO: move this to ui.hpp / renderTasks.cpp (will be useful for all other applications btw also i hate israel)
         for(int i = 0; i<tasks.size(); i++) {
             DrawRectangle(0, (TASK_HEIGHT * i), TASK_WIDTH, TASK_HEIGHT, tasks[i].getBgColor());
 
-            int checkboxTextureIndex; 
-            if(tasks[i].getIsChecked())
-                checkboxTextureIndex = 0;
-            else
-                checkboxTextureIndex = 1;
+            // int checkboxTextureIndex; 
+            // if(tasks[i].getIsChecked())
+            //     checkboxTextureIndex = 0;
+            // else
+            //     checkboxTextureIndex = 1;
 
-            DrawTextureEx(textures[checkboxTextureIndex], {0, (float)(TASK_HEIGHT * i)}, 0.0f, ((float)TASK_HEIGHT / textures[checkboxTextureIndex].width), WHITE);
+            // DrawTextureEx(textures[checkboxTextureIndex], {0, (float)(TASK_HEIGHT * i)}, 0.0f, ((float)TASK_HEIGHT / textures[checkboxTextureIndex].width), WHITE);
+
+            DrawRectangle(0 + 5, (TASK_HEIGHT * i) + 5, TASK_HEIGHT - 10, TASK_HEIGHT - 10, {225, 225, 225, 255});
+
+            Color checkBoxColor;
+            if(tasks[i].getIsChecked())
+                checkBoxColor = {0, 225, 30, 255};
+            else
+                checkBoxColor = {100, 100, 100, 255};
+
+            DrawRectangle(0 + 9, (TASK_HEIGHT * i) + 9, TASK_HEIGHT - 18, TASK_HEIGHT - 18, checkBoxColor);
             DrawTextEx(font, tasks[i].getName(), {(float)(TASK_HEIGHT + 15), (float)(TASK_HEIGHT * i)}, TASK_FONT_SIZE, 0.0f, WHITE);
         }
 
         EndDrawing();
     }
+
+    //Freeing up memory (program end)
+    for(Texture2D texture : textures)
+        UnloadTexture(texture);
+    textures.clear();
+
+    UnloadFont(font);
+    CloseWindow();
+
     return 0;
 }
