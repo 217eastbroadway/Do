@@ -9,26 +9,38 @@ void ui::createTask(std::vector<Task> &tasks) {
     int textBoxWidth = 250;
     int textBoxHeight = 50;
     
-    while(!isCreated) {
+    while(!isCreated && !WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(WHITE);
 
         DrawTextPro(font, "Create New Task", {0, 0}, {0, 0}, 0.0f, 30.0f, 0.0f, BLACK);
         DrawRectangle(GetRenderWidth() / 2 - textBoxWidth / 2, GetRenderHeight() / 2 - textBoxHeight / 2, textBoxWidth, textBoxHeight, {75, 75, 75, 255});
-        char pressedChar = GetCharPressed(); //TODO: this sucks, space / backspace aren't recognized, also add backspace support.
+        char pressedChar = GetCharPressed();
 
         if(pressedChar > 0)
             str += pressedChar;
+
+        if(IsKeyPressed(KEY_BACKSPACE))
+            if(str.length() > 0)
+                str.pop_back();
+        
+        if(IsKeyReleased(KEY_ENTER)) {
+            int color = tasks.size() * 5 * 5; //Calculating color
+            tasks.push_back(Task(str.c_str(), "null", {(unsigned char)color, (unsigned char)color, 225, 255})); //Adding new task to tasks vector
+            //TODO: strings with spaces break the file reader!! FIX!! empty description also breaks file reader thus needs fixing!! FIX!!
+
+            saveEverything("tasks.do", tasks); //Saving changes to disk
+            isCreated = true; //Ending loop
+        }
 
         DrawTextPro(font, str.c_str(), {(float)GetRenderWidth() / 2 - textBoxWidth / 2, (float)GetRenderHeight() / 2 - textBoxHeight / 2}, {0, 0}, 0.0f, 30.0f, 0.0f, WHITE);
         EndDrawing();
 
         if(IsKeyDown(KEY_LEFT_CONTROL))
-            if(IsKeyReleased(KEY_C)) {
-                std::cout << "[DEBUG] ui::createTask >> Quitting...\n";
+            if(IsKeyReleased(KEY_C)) 
                 isCreated = true;
-            }
     }
 
+    std::cout << "[DEBUG] ui::createTask >> Quitting...\n";
     UnloadFont(font);
 }

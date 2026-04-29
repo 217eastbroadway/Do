@@ -42,8 +42,7 @@ void loadEverything(const char *fileName, std::vector<Task> &tasks) {
     char *description = (char*)calloc(128, sizeof(char));
     int isChecked;
     Color color;
-
-    //TODO: fix bool scanning (for some reason it always reads it as 0 [why?])
+    
     while(fscanf(file, "%s %s %d %hhu %hhu %hhu %hhu", 
                                             name,
                                             description,

@@ -29,7 +29,7 @@ int main() {
 
     while(!WindowShouldClose()) {
         BeginDrawing();
-        ClearBackground(BLACK);
+        ClearBackground(WHITE);
 
         //Debug Input Handling
         if(IsKeyDown(KEY_LEFT_CONTROL)) 
